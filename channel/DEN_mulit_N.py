@@ -108,7 +108,7 @@ class Energy():
               lr_start=1e-3, lr_decay=0.1, lr_decay_time=3000):
         num_model = len(self.train_fn_list)
         loss = np.zeros([times, num_model])
-        output = np.zeros([num_model, self.NAP*self.Nchannel])
+        output = []
         record_mean_loss = []
         for loop_time in range(times):
             inputs = self.I + 0.001 * np.random.randn(1, NAP, NAP,1)
@@ -126,7 +126,7 @@ class Energy():
         for loop_model in range(num_model):
             feedin = {"inputs": inputs, "noise": 0}
             o, lt = self.train_fn_list[loop_model](feedin)
-            output[loop_model, :] = o
+            output.append(o)
         return loss, output, record_mean_loss
 # 备用
 # def clipped_error(X, label):
